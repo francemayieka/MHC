@@ -1,0 +1,54 @@
+{
+  "hospital_info": {
+    "name": "Nakuru Referral Hospital",
+    "location": "Nakuru City, Kenya",
+    "contact": {
+      "general": "+254 712 345 678",
+      "emergency": "+254 700 123 456",
+      "ambulance": "+254 711 222 333",
+      "email": "info@nrh.co.ke",
+      "website": "www.nrh.co.ke"
+    },
+    "values": ["Patient First", "Integrity", "Compassion", "Innovation", "Excellence"]
+  },
+  "departments": {
+    "emergency": {
+      "description": "24/7 emergency and trauma care with ICU & HDU services.",
+      "services": ["Accidents", "Heart Attacks", "Stroke", "Ambulance Service"]
+    },
+    "maternity": {
+      "description": "Comprehensive maternity services including antenatal care and NICU.",
+      "services": ["Antenatal Care", "Labor & Delivery", "C-Section", "Neonatal Care"]
+    },
+    "pediatrics": {
+      "description": "Child healthcare services including immunization and neonatal care.",
+      "services": ["Vaccinations", "Growth Monitoring", "Childhood Disease Treatment"]
+    },
+    "surgery": {
+      "description": "Specialized surgical services including general, orthopedic, and neurosurgery.",
+      "services": ["General Surgery", "Orthopedic Surgery", "Neurosurgery"]
+    },
+    "cardiology": {
+      "description": "Comprehensive heart care, including diagnosis and treatment of heart conditions.",
+      "services": ["ECG", "Echocardiography", "Cardiac Consultation"]
+    }
+  },
+  "appointments": {
+    "methods": ["Online Booking", "Walk-in", "Call Center"],
+    "online_portal": "www.nrh.co.ke/appointments",
+    "call_center": "+254 712 345 678"
+  },
+  "insurance_partners": ["NHIF", "SHA", "AAR", "UAP", "Britam"],
+  "payment_methods": ["Private Insurance", "Mobile Payments", "Bank Transfers", "Cash"],
+  "facilities": {
+    "beds": 500,
+    "ambulances": 5,
+    "pharmacy": "24/7 pharmacy available",
+    "radiology": ["MRI", "CT Scan", "X-ray", "Ultrasound"]
+  },
+  "visiting_hours": {
+    "morning": "10:00 AM - 12:00 PM",
+    "evening": "4:00 PM - 6:00 PM",
+    "rules": ["Max 2 visitors per patient", "Wear a mask", "Sanitize at entry"]
+  }
+}
