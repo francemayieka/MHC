@@ -37,6 +37,7 @@ def fetch_hospital_info(user_query):
     query_lower = user_query.lower()
 
     # General Services Query
+    # 🚧Update to embedded
     if "service" in query_lower:
         all_services = {service for dept in nrh_data.get("departments", {}).values() for service in dept.get("services", [])}
         if all_services:
