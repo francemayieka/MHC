@@ -81,6 +81,7 @@ def hospital_assistant_prompt(user_input):
     return (
         "You are a virtual assistant for Nakuru Referral Hospital. "
         "Keep responses clear, concise, and helpful. "
+        "Avoid formatting responses. no markdown, no asterics"
         "Do not provide contact details unless explicitly asked.\n\n"
         f"Hospital Data: {hospital_info}\n"
         f"User: {user_input}\n"
