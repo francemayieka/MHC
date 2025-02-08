@@ -15,10 +15,12 @@ client = genai.Client(api_key=GENAI_API_KEY)
 
 app = Flask(__name__)
 
+# Enable Cross-Origin Resource Sharing (CORS) to allow requests from any domain
 CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Load hospital data from JSON file
 def load_nrh_data():
+    """Load hospital information from a JSON file."""
     try:
         with open("nrh_data.json", "r") as file:
             return json.load(file)
@@ -28,8 +30,9 @@ def load_nrh_data():
 
 nrh_data = load_nrh_data()
 
-# Function to retrieve relevant hospital information
+# Function to retrieve relevant hospital information based on user query
 def fetch_hospital_info(user_query):
+    """Extracts relevant hospital information based on user input."""
     response = []
     query_lower = user_query.lower()
 
@@ -45,7 +48,7 @@ def fetch_hospital_info(user_query):
             response.append(f"Department of {department.capitalize()}: {details.get('description', 'No description available')}.")
             response.append(f"Services offered: {', '.join(details.get('services', ['No services listed']))}.")
 
-    # General Hospital Information
+    # General Hospital Information Queries
     if "phone" in query_lower or "contact" in query_lower:
         contacts = nrh_data.get("hospital_info", {}).get("contact", {})
         response.append(f"📞 General Contact: {contacts.get('general', 'Not available')}")
@@ -80,11 +83,12 @@ def fetch_hospital_info(user_query):
 
 # Function to generate AI chatbot prompt
 def hospital_assistant_prompt(user_input):
+    """Constructs a structured prompt for the AI chatbot."""
     hospital_info = fetch_hospital_info(user_input)
     return (
         "You are a virtual assistant for Nakuru Referral Hospital. "
         "Keep responses clear, concise, and helpful. "
-        "Avoid formatting responses. no markdown, no asterics"
+        "Avoid formatting responses. no markdown, no asterisks. "
         "Do not provide contact details unless explicitly asked.\n\n"
         f"Hospital Data: {hospital_info}\n"
         f"User: {user_input}\n"
@@ -93,10 +97,12 @@ def hospital_assistant_prompt(user_input):
 
 @app.route("/")
 def index():
+    """Render the index page (frontend interface)."""
     return render_template("index.html")
 
 @app.route("/chat", methods=["POST"])
 def chat():
+    """Handles user chat requests and returns AI-generated responses."""
     data = request.json
     user_input = data.get("message")
 
@@ -104,19 +110,21 @@ def chat():
         return jsonify({"error": "Message is required"}), 400
 
     try:
+        # AI Response Generation Configuration
         response = client.models.generate_content(
-            model="gemini-2.0-flash",
-            contents=[hospital_assistant_prompt(user_input)],
+            model="gemini-2.0-flash",  # Select the model to use
+            contents=[hospital_assistant_prompt(user_input)],  # Pass user input as part of the prompt
             config=types.GenerateContentConfig(
-                temperature=0.5,
-                top_k=30,
-                top_p=0.9,
-                max_output_tokens=150,
-                frequency_penalty=0.3,
-                presence_penalty=0.1
+                temperature=0.5,  # Controls randomness: lower = more deterministic, higher = more creative
+                top_k=30,  # Limits choices per step to top-k likely words
+                top_p=0.9,  # Nucleus sampling: selects from top-p probability words
+                max_output_tokens=150,  # Restricts response length to 150 tokens
+                frequency_penalty=0.3,  # Discourages repetition of frequently used phrases
+                presence_penalty=0.1  # Encourages AI to introduce new words
             )
         )
 
+        # Extract AI-generated response
         reply = response.text if response.text else "I'm sorry, I couldn't understand that."
 
         return jsonify({"response": reply})
