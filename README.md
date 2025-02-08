@@ -1,22 +1,27 @@
-# NRH Project  
+# 🌟 NRH Project  
 
 ## 🚀 Getting Started  
 
 ### 1. Fork & Clone the Repository  
-1. Click **Fork** (top-right) to create your copy of this repo.  
+Click **Fork** (top-right) to create your copy of this repo. Then, clone your forked repo and navigate into the project directory:  
 
-2. Clone your forked repo: 
-   cd NRH
+```bash
+cd NRH
+```
 
-2. Set Up the Environment
-Create and activate a virtual environment:
+### Set up the environment (macOS/Linux)
+```bash
 python -m venv venv
-source venv/bin/activate  # macOS/Linux  
-venv\Scripts\activate     # Windows  
+source venv/bin/activate  
+```
 
-Install dependencies:
+### Set up the environment (Windows)
+```bash
+python -m venv venv
+venv\Scripts\activate 
+```
+
+### Install dependencies
+```bash
 pip install -r requirements.txt
 
-3. Run the Project
-python app.py
-flask run  # debugging off
