@@ -4,6 +4,7 @@ from google.genai import types
 import os
 import json
 from dotenv import load_dotenv
+from flask_cors import CORS
 
 # Load API key from .env file
 load_dotenv()
@@ -13,6 +14,8 @@ GENAI_API_KEY = os.getenv("GEMINI_API_KEY")
 client = genai.Client(api_key=GENAI_API_KEY)
 
 app = Flask(__name__)
+
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Load hospital data from JSON file
 def load_nrh_data():
