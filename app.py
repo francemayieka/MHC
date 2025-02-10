@@ -171,7 +171,8 @@ nrh_data = load_nrh_data()
 
 # Function to retrieve relevant hospital information based on user query
 def fetch_hospital_info(user_query):
-    """Extracts relevant hospital information based on user input without if-statements."""
+    """Extracts relevant hospital information based on user input."""
+    response = []
     query_lower = user_query.lower()
     response = []
 
@@ -203,11 +204,42 @@ def fetch_hospital_info(user_query):
             else:
                 response.append(str(data))
 
-    # Check for department-specific queries
+    # Department-Specific Queries
     for department, details in nrh_data.get("departments", {}).items():
         if department.lower() in query_lower:
             response.append(f"Department of {department.capitalize()}: {details.get('description', 'No description available')}.")
             response.append(f"Services offered: {', '.join(details.get('services', ['No services listed']))}.")
+
+    # General Hospital Information Queries
+    if "phone" in query_lower or "contact" in query_lower:
+        contacts = nrh_data.get("hospital_info", {}).get("contact", {})
+        response.append(f"📞 General Contact: {contacts.get('general', 'Not available')}")
+        response.append(f"🚑 Emergency: {contacts.get('emergency', 'Not available')}")
+        response.append(f"🚗 Ambulance: {contacts.get('ambulance', 'Not available')}")
+
+    if "location" in query_lower:
+        response.append(f"📍 Hospital Location: {nrh_data.get('hospital_info', {}).get('location', 'Not available')}")
+
+    if "values" in query_lower or "mission" in query_lower:
+        response.append(f"🏥 Core Values: {', '.join(nrh_data.get('hospital_info', {}).get('values', ['Not available']))}")
+
+    if "insurance" in query_lower or "NHIF" in query_lower:
+        response.append(f"✅ Accepted Insurance: {', '.join(nrh_data.get('insurance_partners', ['Not available']))}")
+
+    if "payment" in query_lower:
+        response.append(f"💳 Payment Methods: {', '.join(nrh_data.get('payment_methods', ['Not available']))}")
+
+    if "facility" in query_lower or "facilities" in query_lower:
+        facilities = nrh_data.get("facilities", {})
+        response.append(f"🛏 Beds: {facilitieys.get('beds', 'Not available')}")
+        response.append(f"🚑 Ambulances: {facilities.get('ambulances', 'Not available')}")
+        response.append(f"💊 Pharmacy: {facilities.get('pharmacy', 'Not available')}")
+        response.append(f"📡 Radiology: {', '.join(facilities.get('radiology', []))}")
+
+    if "visiting" in query_lower or "visiting hours" in query_lower:
+        visiting = nrh_data.get("visiting_hours", {})
+        response.append(f"⏰ Visiting Hours: Morning - {visiting.get('morning', 'Not available')}, Evening - {visiting.get('evening', 'Not available')}.")
+        response.append(f"📝 Rules: {', '.join(visiting.get('rules', []))}")
 
     return "\n".join(response) if response else "I'm sorry, I couldn't find that information."
 
